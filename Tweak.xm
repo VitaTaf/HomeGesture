@@ -1,9 +1,17 @@
 long _dismissalSlidingMode = 0;
+bool originalButton;
+long _homeButtonType = 1;
 
 // Enable home gestures
 %hook BSPlatform
 - (NSInteger)homeButtonType {
-	return 2;
+	_homeButtonType = %orig;
+	if (originalButton) {
+		originalButton = NO;
+		return %orig;
+	} else {
+		return 2;
+	}
 }
 %end
 
@@ -46,5 +54,32 @@ long _dismissalSlidingMode = 0;
 %hook CCUIOverlayStatusBarPresentationProvider
 - (void)_addHeaderContentTransformAnimationToBatch:(id)arg1 transitionState:(id)arg2 {
 	return;
+}
+%end
+
+// Hide home bar in cover sheet
+%hook SBDashboardHomeAffordanceView
+- (void)_createStaticHomeAffordance {
+	return;
+}
+%end
+
+// Restore footer indicators
+%hook SBDashBoardViewController
+- (void)viewDidLoad {
+	originalButton = YES;
+	%orig;
+}
+%end
+
+// Restore button to invoke Siri
+%hook SBLockHardwareButtonActions
+- (id)initWithHomeButtonType:(long long)arg1 proximitySensorManager:(id)arg2 {
+	return %orig(_homeButtonType, arg2);
+}
+%end
+%hook SBHomeHardwareButtonActions
+- (id)initWitHomeButtonType:(long long)arg1 {
+	return %orig(_homeButtonType);
 }
 %end
