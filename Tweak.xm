@@ -56,6 +56,18 @@ long _homeButtonType = 1;
 	return;
 }
 %end
+// Prevent status bar from flashing when invoking control center
+%hook CCUIModularControlCenterOverlayViewController
+- (void)setOverlayStatusBarHidden:(bool)arg1 {
+	return;
+}
+%end
+// Prevent status bar from displaying in fullscreen when invoking control center
+%hook CCUIStatusBarStyleSnapshot
+- (bool)isHidden {
+	return YES;
+}
+%end
 
 // Hide home bar in cover sheet
 %hook SBDashboardHomeAffordanceView
@@ -81,5 +93,19 @@ long _homeButtonType = 1;
 %hook SBHomeHardwareButtonActions
 - (id)initWitHomeButtonType:(long long)arg1 {
 	return %orig(_homeButtonType);
+}
+%end
+
+// Hide notification hints
+%hook NCNotificationListSectionRevealHintView
+- (void)_updateHintTitle {
+	return;
+}
+%end
+
+// Hide unlock hints
+%hook SBDashBoardTeachableMomentsContainerViewController
+- (void)_updateTextLabel {
+	return;
 }
 %end
