@@ -109,3 +109,10 @@ long _homeButtonType = 1;
 	return;
 }
 %end
+
+// Disable breadcrumb
+%hook SBWorkspaceDefaults
+- (bool)isBreadcrumbDisabled {
+	return YES;
+}
+%end
