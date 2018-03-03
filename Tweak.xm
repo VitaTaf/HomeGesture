@@ -37,7 +37,7 @@ long _homeButtonType = 1;
 }
 %end
 
-// Remove carrier text
+/*/ Remove carrier text
 %hook UIStatusBarServiceItemView
 - (id)_serviceContentsImage {
     return nil;
@@ -48,7 +48,7 @@ long _homeButtonType = 1;
 - (CGFloat)standardPadding {
     return 2.0f;
 }
-%end
+%end*/
 
 // Workaround for status bar transition bug
 %hook CCUIOverlayStatusBarPresentationProvider
@@ -69,20 +69,20 @@ long _homeButtonType = 1;
 }
 %end
 
-// Hide home bar in cover sheet
+/*/ Hide home bar in cover sheet
 %hook SBDashboardHomeAffordanceView
 - (void)_createStaticHomeAffordance {
 	return;
 }
-%end
+%end*/
 
-// Restore footer indicators
+/*/ Restore footer indicators
 %hook SBDashBoardViewController
 - (void)viewDidLoad {
 	originalButton = YES;
 	%orig;
 }
-%end
+%end*/
 
 // Restore button to invoke Siri
 %hook SBLockHardwareButtonActions
@@ -96,23 +96,23 @@ long _homeButtonType = 1;
 }
 %end
 
-// Hide notification hints
+/*/ Hide notification hints
 %hook NCNotificationListSectionRevealHintView
 - (void)_updateHintTitle {
 	return;
 }
-%end
+%end*/
 
-// Hide unlock hints
+/*/ Hide unlock hints
 %hook SBDashBoardTeachableMomentsContainerViewController
 - (void)_updateTextLabel {
 	return;
 }
-%end
+%end*/
 
-// Disable breadcrumb
+/*/ Disable breadcrumb
 %hook SBWorkspaceDefaults
 - (bool)isBreadcrumbDisabled {
 	return YES;
 }
-%end
+%end*/
