@@ -55,6 +55,9 @@ long _homeButtonType = 1;
 - (void)_addHeaderContentTransformAnimationToBatch:(id)arg1 transitionState:(id)arg2 {
 	return;
 }
+- (struct CGRect)headerViewFrame {
+	return CGRectMake(0, 0, %orig.size.width, 45);
+}
 %end
 // Prevent status bar from flashing when invoking control center
 %hook CCUIModularControlCenterOverlayViewController
