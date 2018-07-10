@@ -1,6 +1,7 @@
 long _dismissalSlidingMode = 0;
 bool originalButton;
 long _homeButtonType = 1;
+int applicationDidFinishLaunching;
 
 // Enable home gestures
 %hook BSPlatform
@@ -96,6 +97,43 @@ long _homeButtonType = 1;
 %hook SBHomeHardwareButtonActions
 - (id)initWitHomeButtonType:(long long)arg1 {
 	return %orig(_homeButtonType);
+}
+%end
+
+// Restore screenshot shortcut
+%hook SpringBoard
+- (void)applicationDidFinishLaunching:(id)arg1 {
+	applicationDidFinishLaunching = 2;
+	%orig;
+}
+%end
+%hook SBPressGestureRecognizer
+- (void)setAllowedPressTypes:(NSArray *)arg1 {
+	NSArray * lockHome = @[@104, @101];
+	NSArray * lockVol = @[@104, @102, @103];
+	if ([arg1 isEqual:lockVol] && applicationDidFinishLaunching == 2) {
+		%orig(lockHome);
+		applicationDidFinishLaunching--;
+		return;
+	}
+	%orig;
+}
+%end
+%hook SBClickGestureRecognizer
+- (void)addShortcutWithPressTypes:(id)arg1 {
+	if (applicationDidFinishLaunching == 1) {
+		applicationDidFinishLaunching--;
+		return;
+	}
+	%orig;
+}
+%end
+%hook SBHomeHardwareButton
+- (id)initWithScreenshotGestureRecognizer:(id)arg1 homeButtonType:(long long)arg2 buttonActions:(id)arg3 gestureRecognizerConfiguration:(id)arg4 {
+	return %orig(arg1, _homeButtonType, arg3, arg4);
+}
+- (id)initWithScreenshotGestureRecognizer:(id)arg1 homeButtonType:(long long)arg2 {
+	return %orig(arg1, _homeButtonType);
 }
 %end
 
