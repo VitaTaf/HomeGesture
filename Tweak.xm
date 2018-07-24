@@ -157,3 +157,15 @@ int applicationDidFinishLaunching;
 	return YES;
 }
 %end
+
+// Workaround for crash when launching app and invoking control center simultaneously
+%hook SBSceneHandle
+- (id)scene {
+	@try {
+		return %orig;
+	}
+	@catch (NSException *e) {
+		return nil;
+	}
+}
+%end
