@@ -169,3 +169,17 @@ int applicationDidFinishLaunching;
 	}
 }
 %end
+
+// Force close app without long-pressing card
+%hook SBAppSwitcherSettings
+- (long long)effectiveKillAffordanceStyle {
+	return 2;
+}
+%end
+// Enable simutaneous scrolling and dismissing
+%hook SBFluidSwitcherViewController
+- (double)_killGestureHysteresis {
+	double orig = %orig;
+	return orig == 30 ? 10 : orig;
+}
+%end
