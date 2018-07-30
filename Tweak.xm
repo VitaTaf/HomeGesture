@@ -57,7 +57,14 @@ int applicationDidFinishLaunching;
 	return;
 }
 - (struct CGRect)headerViewFrame {
-	return CGRectMake(0, 0, %orig.size.width, 45);
+	struct CGRect orig = %orig;
+	orig.size.height = 45;
+	return (CGRect){orig.origin, orig.size};
+}
+- (struct CGRect)_presentedViewFrame {
+	struct CGRect orig = %orig;
+	orig.origin.y = 45;
+	return (CGRect){orig.origin, orig.size};
 }
 %end
 // Prevent status bar from flashing when invoking control center
