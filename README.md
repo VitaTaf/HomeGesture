@@ -19,3 +19,6 @@ Copy the tweak binary as well as `HomeGesture.plist` in the source directory to 
 (`/bootstrap/Library/SBinject` for Electra on iOS 11.1-11.1.2 or `/Library/TweakInject` for Electra on iOS 11.2-11.3.1).
 
 Prebuilt releases are available [here](https://github.com/VitaTaf/HomeGesture/releases).
+
+## Forks
+HomeGesture forks such as [HomeGesture Lite by MidnightChips](https://repo.packix.com/package/com.vitataf.homegesturelite/) may also be installed from Cydia. Developers are free to modify and use the HomeGesture source in their work in accordance with the GNU General Public License.
